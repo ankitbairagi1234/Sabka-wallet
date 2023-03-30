@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
@@ -8,9 +9,13 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'Theme/colors.dart';
 import 'package:http/http.dart'as http;
 
+import 'homeeeeeeeeeeeeeee.dart';
+import 'model/userprofile.dart';
+
 
 class EditeProfile extends StatefulWidget {
-  const EditeProfile({Key? key}) : super(key: key);
+  Userprofile? getProfileModel;
+  EditeProfile({this.getProfileModel});
 
   @override
   State<EditeProfile> createState() => _EditeProfileState();
@@ -18,34 +23,79 @@ class EditeProfile extends StatefulWidget {
 
 class _EditeProfileState extends State<EditeProfile> {
 
+
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    // nameCtr.text = widget.getProfileModel!.data![0].username.toString();
+    // emailCtr.text = widget.getProfileModel!.data![0].email.toString();
+    // mobileController.text = widget.getProfileModel!.data![0].mobile.toString();
+    // addressController.text = widget.getProfileModel!.data![0].address.toString();
+  }
   final _formKey = GlobalKey<FormState>();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phonelController = TextEditingController();
+  TextEditingController emailCtr = TextEditingController();
+  TextEditingController nameCtr = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController passController = TextEditingController();
   TextEditingController CpassController = TextEditingController();
   TextEditingController addressController = TextEditingController();
 
 
+  // Data? getprofile;
+
+  String? id;
+  String? username;
+  // getuserProfile() async{
+  //   SharedPreferences preferences = await SharedPreferences.getInstance();
+  //   String? id  =  preferences.getString('userid');
+  //   username  =  preferences.getString('username');
+  //   print("aaaaaaaaaa");
+  //   print(username);
+  //
+  //   setState(() {
+  //   });
+  //   var headers = {
+  //     'Cookie': 'ci_session=7ff77755bd5ddabba34d18d1a5a3b7fbca686dfa'
+  //   };
+  //   var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/financego/app/v1/api/get_profile'));
+  //   request.fields.addAll({
+  //     'user_id': id.toString()
+  //   });
+  //   print("This is user request-----------${request.fields}");
+  //   request.headers.addAll(headers);
+  //   http.StreamedResponse response = await request.send();
+  //   if (response.statusCode == 200) {
+  //     var finalResult = await response.stream.bytesToString();
+  //     final jsonResponse = Userprofile.fromJson(json.decode(finalResult));
+  //     print("this is final resultsssssssss${finalResult}");
+  //     print("getuserdetails==============>${jsonResponse}");
+  //     setState(() {
+  //
+  //     });
+  //   }
+  //   else {
+  //     print(response.reasonPhrase);
+  //   }
+  // }
+
   profileUpdate() async {
     SharedPreferences preferences = await SharedPreferences.getInstance();
     String? id  =  preferences.getString('userid');
+    username  =  preferences.getString('username');
     print("TTTTTTTTTTTTT>>>>>>>>>>>${id}");
+    print("username is here${username}");
     var headers = {
       'Cookie': 'ci_session=199a1efb5ef15df0d3e37e14be83da417540bef9'
     };
     var request = http.MultipartRequest('POST', Uri.parse('https://developmentalphawizz.com/financego/app/v1/api/update_user'));
     request.fields.addAll({
-      'user_id': "${id}",
-      'email': emailController.text,
+      'user_id': id.toString(),
+      'email': emailCtr.text,
       'mobile': mobileController.text,
       'address': addressController.text,
       'image': ''
     });
-
     request.headers.addAll(headers);
-
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
@@ -56,13 +106,13 @@ class _EditeProfileState extends State<EditeProfile> {
     }
 
   }
-  void initState(){
-    super.initState();
-    profileUpdate();
-  }
-  File? imageFile;
+  // void initState(){
+  //   super.initState();
+  //   profileUpdate();
+  // }
+  // File? imageFile;
   // final ImagePicker _picker = ImagePicker();
-
+  //
   // Future<bool> showExitPopup() async {
   //   return await showDialog(
   //     //show confirm dialogue
@@ -98,7 +148,6 @@ class _EditeProfileState extends State<EditeProfile> {
   //   ) ??
   //       false; //if showDialouge had returned null, then return false
   // }
-
   // _getFromGallery() async {
   //   final XFile? pickedFile =
   //   await _picker.pickImage(source: ImageSource.gallery, imageQuality: 100);
@@ -112,7 +161,6 @@ class _EditeProfileState extends State<EditeProfile> {
   //     Navigator.pop(context);
   //   }
   // }
-  //
   // _getFromCamera() async {
   //   final XFile? pickedFile =
   //   await _picker.pickImage(source: ImageSource.camera, imageQuality: 100);
@@ -126,7 +174,6 @@ class _EditeProfileState extends State<EditeProfile> {
   //     Navigator.pop(context);
   //   }
   // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -152,7 +199,6 @@ class _EditeProfileState extends State<EditeProfile> {
         //     ))
       ],
     ),
-
     body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -179,6 +225,7 @@ class _EditeProfileState extends State<EditeProfile> {
                       // top: 30,
                       child: InkWell(
                         onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (c)=>ProductList()));
                           // showExitPopup();
                         },
                         child: Container(
@@ -199,7 +246,6 @@ class _EditeProfileState extends State<EditeProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 10,),
-
                     Padding(
                       padding: const EdgeInsets.all(5.0),
                       child: Text("Name", style: TextStyle(
@@ -207,8 +253,8 @@ class _EditeProfileState extends State<EditeProfile> {
                     ),
                     SizedBox(height: 10,),
                     TextFormField(
-                      controller: nameController,
-                      keyboardType: TextInputType.emailAddress,
+                      controller: nameCtr,
+                      keyboardType: TextInputType.text,
                       decoration: InputDecoration(
                           // hintText: 'Ankit Bairagi',
                           hintStyle: TextStyle(
@@ -231,7 +277,7 @@ class _EditeProfileState extends State<EditeProfile> {
                     ),
                     SizedBox(height: 10,),
                     TextFormField(
-                      controller: emailController,
+                      controller: emailCtr,
                       keyboardType: TextInputType.emailAddress,
                       decoration: InputDecoration(
                           // hintText: 'ankit0147@gmail.com',

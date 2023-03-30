@@ -51,6 +51,7 @@ class _RegistrationUIState extends State<RegistrationUI> {
       'password': '12345678',
       'address': addressCtr.text,
     });
+    print("aaaaaaaaaaaaaaaaa${nameCtr}");
     print("fields----------${request.fields}");
     request.headers.addAll(headers);
     http.StreamedResponse response = await request.send();

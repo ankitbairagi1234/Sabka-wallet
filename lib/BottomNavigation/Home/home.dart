@@ -24,7 +24,6 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-
 class Payment {
   String image;
   String? title;
@@ -75,7 +74,6 @@ class _HomePageState extends State<HomePage> {
     );
     return banner.load();
   }
-
   Getbannermodel? getbannermodel;
   getBanner() async {
     var headers = {
@@ -101,7 +99,6 @@ class _HomePageState extends State<HomePage> {
     print(response.reasonPhrase);
     }
   }
-
   String? username;
   String? address;
 
@@ -128,7 +125,6 @@ class _HomePageState extends State<HomePage> {
       var finalResult = await response.stream.bytesToString();
       final jsonResponse = Userprofile.fromJson(json.decode(finalResult));
       print("this is final resultsssssssss${finalResult}");
-
       print("getuserdetails==============>${jsonResponse}");
       setState(() {
 
